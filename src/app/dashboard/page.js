@@ -69,20 +69,22 @@ export default function DashboardPage() {
     return (
         <div className="bg-pattern-grid min-h-screen bg-[var(--background)] p-6 transition-colors duration-500">
             <div className="max-w-7xl mx-auto space-y-8">
-                <header className="flex items-center justify-between">
-                    <div>
-                        <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-50">My Tasks</h1>
-                        <p className="text-slate-800 dark:text-slate-50 opacity-70">Manage your daily goals</p>
+                <header className="flex flex-col gap-4">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-50">TaskFlow</h1>
+                            <p className="text-slate-800 dark:text-slate-50 opacity-70">Manage your daily goals</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <ModeToggle />
+                            <Button variant="ghost" size="icon" onClick={handleLogout} title="Logout">
+                                <LogOut className="h-[1.2rem] w-[1.2rem] text-red-500 hover:text-slate-950 transition-colors" />
+                            </Button>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <ModeToggle />
-                        <Button variant="ghost" size="icon" onClick={handleLogout} title="Logout">
-                            <LogOut className="h-[1.2rem] w-[1.2rem] text-red-500 hover:text-slate-950 transition-colors" />
-                        </Button>
-                        <Button onClick={handleCreate} className="shadow-lg hover:shadow-indigo-500/20 transition-shadow">
-                            <Plus className="mr-2 h-4 w-4" /> New Task
-                        </Button>
-                    </div>
+                    <Button onClick={handleCreate} className="w-full sm:w-auto sm:self-end shadow-lg hover:shadow-indigo-500/20 transition-shadow">
+                        <Plus className="mr-2 h-4 w-4" /> New Task
+                    </Button>
                 </header>
 
                 {tasks.length === 0 && !isLoading ? (

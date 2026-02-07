@@ -71,7 +71,7 @@ export default function LoginPage() {
                             <Input
                                 id="email"
                                 type="email"
-                                placeholder="Ex: commander@base.com"
+                                placeholder="commander@base.com"
                                 {...register('email')}
                                 className={cn(errors.email && "border-red-500 focus-visible:ring-red-500")}
                             />
@@ -83,7 +83,7 @@ export default function LoginPage() {
                             <Input
                                 id="password"
                                 type="password"
-                                placeholder="Secret code"
+                                placeholder="masterpassword"
                                 {...register('password')}
                                 className={cn(errors.password && "border-red-500 focus-visible:ring-red-500")}
                             />

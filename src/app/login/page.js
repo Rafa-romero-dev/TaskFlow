@@ -8,6 +8,9 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/presentation/components/ui/Button';
 import { Input } from '@/presentation/components/ui/Input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/presentation/components/ui/Card';
+import { ModeToggle } from '@/presentation/components/ui/ModeToggle';
+import { cn } from '@/lib/utils';
+import { MoveRightIcon } from 'lucide-react';
 
 const schema = z.object({
     email: z.string().email('Invalid email address'),
@@ -48,59 +51,67 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800 p-4">
-            <Card className="w-full max-w-md bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl">
+        <div className="bg-pattern-grid min-h-screen flex items-center justify-center p-4 bg-[var(--background)] transition-colors duration-500">
+            <div className="absolute top-4 right-4">
+                <ModeToggle />
+            </div>
+            <Card className="w-full max-w-md shadow-2xl bg-[var(--card)] border-[var(--border)] animate-slide-up">
                 <CardHeader>
-                    <CardTitle className="text-3xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">
+                    <CardTitle className="text-3xl font-bold text-center bg-clip-text bg-gradient-to-r">
                         Welcome Back
                     </CardTitle>
-                    <CardDescription className="text-center text-slate-300">
+                    <CardDescription className="text-center opacity-70">
                         Enter your credentials to access your mission control.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-slate-200" htmlFor="email">Email</label>
+                            <label className="text-sm font-medium text-stone-950 dark:text-stone-100" htmlFor="email">Email</label>
                             <Input
                                 id="email"
                                 type="email"
                                 placeholder="Ex: commander@base.com"
                                 {...register('email')}
-                                className="bg-slate-950/50 border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-indigo-500"
+                                className={cn(errors.email && "border-red-500 focus-visible:ring-red-500")}
                             />
-                            {errors.email && <p className="text-xs text-red-400">{errors.email.message}</p>}
+                            {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-slate-200" htmlFor="password">Password</label>
+                            <label className="text-sm font-medium text-stone-950 dark:text-stone-100" htmlFor="password">Password</label>
                             <Input
                                 id="password"
                                 type="password"
                                 placeholder="Secret code"
                                 {...register('password')}
-                                className="bg-slate-950/50 border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-indigo-500"
+                                className={cn(errors.password && "border-red-500 focus-visible:ring-red-500")}
                             />
-                            {errors.password && <p className="text-xs text-red-400">{errors.password.message}</p>}
+                            {errors.password && <p className="text-xs text-red-500">{errors.password.message}</p>}
                         </div>
 
                         {error && (
-                            <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
+                            <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 text-sm text-center">
                                 {error}
                             </div>
                         )}
 
                         <Button
                             type="submit"
-                            className="w-full mt-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-3 shadow-lg shadow-indigo-500/20"
                             disabled={isLoading}
-                        >
-                            {isLoading ? 'Authenticating...' : 'Start Mission'}
+                            className={cn(
+                                "group relative inline-flex h-12 w-full items-center justify-center overflow-hidden rounded-md bg-neutral-950 dark:bg-[var(--border)] px-6 font-medium text-neutral-200 transition-all hover:bg-[var(--secondary)] hover:text-neutral-950 dark:hover:bg-[var(--background)] dark:hover:text-[var(--foreground)] disabled:opacity-50",
+                                isLoading && "cursor-not-allowed opacity-70"
+                            )}>
+                            <span className="mr-2">{isLoading ? 'Authenticating...' : 'Login'}</span>
+                            <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100">
+                                <MoveRightIcon className="h-5 w-5" />
+                            </div>
                         </Button>
                     </form>
                 </CardContent>
                 <CardFooter className="justify-center">
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-slate-900 dark:text-slate-200 opacity-50">
                         Secure System v1.0
                     </p>
                 </CardFooter>

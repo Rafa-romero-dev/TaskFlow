@@ -28,7 +28,7 @@ export function TaskForm({ initialData = {}, onSubmit, onCancel, className }) {
     return (
         <form
             onSubmit={handleSubmit(handleFormSubmit)}
-            className={cn("space-y-4 bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl", className)}
+            className={cn("space-y-4 bg-[var(--card)] text-[var(--card-foreground)] p-6 rounded-xl border border-[var(--border)] shadow-xl transition-all duration-300", className)}
         >
             <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
@@ -48,7 +48,7 @@ export function TaskForm({ initialData = {}, onSubmit, onCancel, className }) {
                     id="title"
                     placeholder="Task title"
                     {...register('title')}
-                    className={cn("bg-slate-50 dark:bg-slate-950", errors.title && "border-red-500 focus-visible:ring-red-500")}
+                    className={cn(errors.title && "border-red-500 focus-visible:ring-red-500")}
                 />
                 {errors.title && <p className="text-xs text-red-500">{errors.title.message}</p>}
             </div>
@@ -61,7 +61,7 @@ export function TaskForm({ initialData = {}, onSubmit, onCancel, className }) {
                     id="description"
                     placeholder="Task description"
                     {...register('description')}
-                    className="flex min-h-[80px] w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200"
+                    className="flex min-h-[80px] w-full rounded-xl border border-[var(--border)] bg-[var(--input-background)] text-[var(--input-foreground)] px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300"
                 />
                 {errors.description && <p className="text-xs text-red-500">{errors.description.message}</p>}
             </div>

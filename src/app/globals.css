@@ -1,26 +1,121 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 
+     Palette: 
+     Primary Blue: #3674B5
+     Secondary Blue: #578FCA
+     Cream/Beige: #F5F0CD
+     Golden Yellow: #FADA7A
+  */
+
+  --background: #F5F0CD;
+  --foreground: #3674B5;
+
+  --card: #ffffff;
+  --card-foreground: #3674B5;
+
+  --primary: #3674B5;
+  --primary-foreground: #ffffff;
+
+  --secondary: #FADA7A;
+  --secondary-foreground: #3674B5;
+
+  --border: #000;
+  --ring: #3674B5;
+
+  --input-background: #dae0f7;
+  --input-foreground: #000;
+
+  --pattern-line: rgba(54, 116, 181, 0.12);
+}
+
+.dark {
+  --background: #0f2035;
+  --foreground: #F5F0CD;
+
+  --card: #1a2e47;
+  --card-foreground: #F5F0CD;
+
+  --primary: #578FCA;
+  --primary-foreground: #ffffff;
+
+  --secondary: #FADA7A;
+  --secondary-foreground: #0f2035;
+
+  --border: #3674B5;
+  --ring: #3674B5;
+
+  --input-background: #e2e5e7;
+  --input-foreground: #1a2e47;
+
+  --pattern-line: rgba(87, 143, 202, 0.15);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bg-pattern-grid {
+  background-image:
+    linear-gradient(var(--pattern-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--pattern-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Global Transition */
+div,
+button,
+input,
+textarea,
+span,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    fill 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    stroke 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animations */
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

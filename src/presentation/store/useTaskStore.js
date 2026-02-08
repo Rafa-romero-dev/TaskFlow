@@ -4,6 +4,11 @@ export const useTaskStore = create((set) => ({
     tasks: [],
     isLoading: false,
     error: null,
+    filter: 'all',
+    groupBy: 'none',
+
+    setFilter: (filter) => set({ filter }),
+    setGroupBy: (groupBy) => set({ groupBy }),
 
     fetchTasks: async () => {
         set({ isLoading: true, error: null });

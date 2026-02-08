@@ -9,17 +9,23 @@ export function TaskCard({ task, onEdit }) {
     const { deleteTask } = useTaskStore();
 
     const statusColors = {
-        pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
+        'todo': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
         'in-progress': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
-        completed: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+        'done': 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+    };
+
+    const statusLabels = {
+        'todo': '📋 To Do',
+        'in-progress': '🚀 In Progress',
+        'done': '✅ Done',
     };
 
     return (
         <Card className="hover:scale-[1.02] transition-transform duration-200">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-xl font-bold truncate pr-4">{task.title}</CardTitle>
-                <span className={cn('px-2.5 py-0.5 rounded-full text-xs font-medium', statusColors[task.status] || statusColors.pending)}>
-                    {task.status}
+                <span className={cn('px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap', statusColors[task.status] || statusColors.todo)}>
+                    {statusLabels[task.status] || statusLabels.todo}
                 </span>
             </CardHeader>
             <CardContent>

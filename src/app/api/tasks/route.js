@@ -11,7 +11,7 @@ export async function POST(request) {
     await delay(500);
 
     try {
-        const { title, description } = await request.json();
+        const { title, description, status } = await request.json();
 
         // In a real app, I'd increment idCounter properly, but here we can export/import mutable let variable
         // Wait, imports are live bindings, but reassigning exported `let` from another module doesn't work as expected if I want to update `idCounter` in `memory.js`.
@@ -23,7 +23,7 @@ export async function POST(request) {
         // I'll update `memory.js` afterwards to be better if needed, but for now:
 
         const id = String(Date.now()); // Simple unique ID
-        const newTask = new Task(id, title, description);
+        const newTask = new Task(id, title, description, status || 'todo');
 
         tasks.push(newTask);
 

@@ -10,6 +10,7 @@ import { X } from 'lucide-react';
 const schema = z.object({
     title: z.string().min(1, 'Title is required'),
     description: z.string().optional(),
+    status: z.enum(['todo', 'in-progress', 'done']).default('todo'),
 });
 
 export function TaskForm({ initialData = {}, onSubmit, onCancel, className }) {
@@ -18,6 +19,7 @@ export function TaskForm({ initialData = {}, onSubmit, onCancel, className }) {
         defaultValues: {
             title: initialData.title || '',
             description: initialData.description || '',
+            status: initialData.status || 'todo',
         },
     });
 
@@ -64,6 +66,22 @@ export function TaskForm({ initialData = {}, onSubmit, onCancel, className }) {
                     className="flex min-h-[80px] w-full rounded-xl border border-[var(--border)] bg-[var(--input-background)] text-[var(--input-foreground)] px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300"
                 />
                 {errors.description && <p className="text-xs text-red-500">{errors.description.message}</p>}
+            </div>
+
+            <div className="space-y-2">
+                <label htmlFor="status" className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    Status
+                </label>
+                <select
+                    id="status"
+                    {...register('status')}
+                    className="flex h-10 w-full rounded-xl border border-[var(--border)] bg-[var(--input-background)] text-[var(--input-foreground)] px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300"
+                >
+                    <option value="todo">📋 To Do</option>
+                    <option value="in-progress">🚀 In Progress</option>
+                    <option value="done">✅ Done</option>
+                </select>
+                {errors.status && <p className="text-xs text-red-500">{errors.status.message}</p>}
             </div>
 
             <div className="flex justify-end gap-2 pt-2">

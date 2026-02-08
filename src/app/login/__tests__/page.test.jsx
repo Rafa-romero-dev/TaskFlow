@@ -23,13 +23,13 @@ describe('LoginPage', () => {
         render(<LoginPage />);
         expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /start mission/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
     });
 
     it('shows validation errors for invalid input', async () => {
         render(<LoginPage />);
 
-        fireEvent.click(screen.getByRole('button', { name: /start mission/i }));
+        fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
         await waitFor(() => {
             expect(screen.getByText(/invalid email address/i)).toBeInTheDocument();
@@ -48,7 +48,7 @@ describe('LoginPage', () => {
         fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
         fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'password123' } });
 
-        fireEvent.click(screen.getByRole('button', { name: /start mission/i }));
+        fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
         await waitFor(() => {
             expect(fetch).toHaveBeenCalledWith('/api/auth/login', expect.objectContaining({
@@ -69,7 +69,7 @@ describe('LoginPage', () => {
         fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
         fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'wrongpassword' } });
 
-        fireEvent.click(screen.getByRole('button', { name: /start mission/i }));
+        fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
         await waitFor(() => {
             expect(screen.getByText(/invalid credentials/i)).toBeInTheDocument();

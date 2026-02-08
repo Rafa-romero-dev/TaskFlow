@@ -73,10 +73,10 @@ describe('useTaskStore', () => {
     });
 
     it('should update a task', async () => {
-        const initialTasks = [{ id: '1', title: 'Task 1', status: 'pending' }];
+        const initialTasks = [{ id: '1', title: 'Task 1', status: 'todo' }];
         useTaskStore.setState({ tasks: initialTasks });
 
-        const updatedTask = { id: '1', title: 'Task 1', status: 'completed' };
+        const updatedTask = { id: '1', title: 'Task 1', status: 'done' };
         fetch.mockResolvedValueOnce({
             ok: true,
             json: async () => updatedTask,
@@ -85,9 +85,29 @@ describe('useTaskStore', () => {
         const { result } = renderHook(() => useTaskStore());
 
         await act(async () => {
-            await result.current.updateTask('1', { status: 'completed' });
+            await result.current.updateTask('1', { status: 'done' });
         });
 
-        expect(result.current.tasks[0].status).toBe('completed');
+        expect(result.current.tasks[0].status).toBe('done');
+    });
+
+    it('should update the filter', () => {
+        const { result } = renderHook(() => useTaskStore());
+
+        act(() => {
+            result.current.setFilter('done');
+        });
+
+        expect(result.current.filter).toBe('done');
+    });
+
+    it('should update the grouping', () => {
+        const { result } = renderHook(() => useTaskStore());
+
+        act(() => {
+            result.current.setGroupBy('status');
+        });
+
+        expect(result.current.groupBy).toBe('status');
     });
 });

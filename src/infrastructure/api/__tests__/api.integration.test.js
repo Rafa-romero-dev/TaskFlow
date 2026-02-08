@@ -45,25 +45,38 @@ describe('API Integration Tests', () => {
             expect(data.length).toBe(0);
         });
 
-        it('should create a new task', async () => {
+        it('should create a new task with default status', async () => {
             const taskData = { title: 'Test Task', description: 'Testing API' };
             const request = new Request(`${baseUrl}/tasks`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(taskData),
             });
-            const response = await createTask(request); // Fixed: calling createTask
+            const response = await createTask(request);
             expect(response.status).toBe(201);
             const data = await response.json();
             expect(data).toHaveProperty('id');
             expect(data.title).toBe(taskData.title);
-            expect(data.status).toBe('pending');
+            expect(data.status).toBe('todo'); // Updated to new default status
             createdTaskId = data.id;
+        });
+
+        it('should create a task with specific status', async () => {
+            const taskData = { title: 'In Progress Task', description: 'Testing status', status: 'in-progress' };
+            const request = new Request(`${baseUrl}/tasks`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(taskData),
+            });
+            const response = await createTask(request);
+            expect(response.status).toBe(201);
+            const data = await response.json();
+            expect(data.status).toBe('in-progress');
         });
 
         it('should get the list with the created task', async () => {
             const request = new Request(`${baseUrl}/tasks`, { method: 'GET' });
-            const response = await getTasks(request); // Fixed: calling getTasks
+            const response = await getTasks(request);
             expect(response.status).toBe(200);
             const data = await response.json();
             expect(data.length).toBeGreaterThan(0);
@@ -71,7 +84,7 @@ describe('API Integration Tests', () => {
         });
 
         it('should update the task status', async () => {
-            const updateData = { status: 'completed' };
+            const updateData = { status: 'done' }; // Updated to new status value
             const request = new Request(`${baseUrl}/tasks/${createdTaskId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -88,7 +101,7 @@ describe('API Integration Tests', () => {
 
             expect(response.status).toBe(200);
             const data = await response.json();
-            expect(data.status).toBe('completed');
+            expect(data.status).toBe('done'); // Updated to new status value
         });
 
         it('should delete the task', async () => {

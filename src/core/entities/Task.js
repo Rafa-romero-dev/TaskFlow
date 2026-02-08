@@ -3,9 +3,9 @@ export class Task {
    * @param {string} id - Unique identifier
    * @param {string} title - Task title
    * @param {string} description - Task description
-   * @param {'pending' | 'in-progress' | 'completed'} status - Current status of the task
+   * @param {'todo' | 'in-progress' | 'done'} status - Current status of the task
    */
-  constructor(id, title, description, status = 'pending') {
+  constructor(id, title, description, status = 'todo') {
     this.id = id;
     this.title = title;
     this.description = description;

@@ -1,17 +1,28 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useTaskStore } from '@/presentation/store/useTaskStore';
 import { TaskCard } from '@/presentation/components/domain/TaskCard';
 import { TaskForm } from '@/presentation/components/domain/TaskForm';
+import { TaskControls } from '@/presentation/components/domain/TaskControls';
 import { Button } from '@/presentation/components/ui/Button';
 import { ModeToggle } from '@/presentation/components/ui/ModeToggle';
 import { Plus, LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 
 export default function DashboardPage() {
-    const { tasks, isLoading, error, fetchTasks, addTask, updateTask } = useTaskStore();
+    const {
+        tasks,
+        isLoading,
+        error,
+        fetchTasks,
+        addTask,
+        updateTask,
+        filter,
+        groupBy
+    } = useTaskStore();
     const router = useRouter();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingTask, setEditingTask] = useState(null);
@@ -19,6 +30,34 @@ export default function DashboardPage() {
     useEffect(() => {
         fetchTasks();
     }, [fetchTasks]);
+
+    const filteredAndGroupedTasks = useMemo(() => {
+        let result = tasks;
+
+        // Apply filter
+        if (filter !== 'all') {
+            result = result.filter(task => task.status === filter);
+        }
+
+        // Apply grouping
+        if (groupBy === 'status') {
+            const groups = {
+                'todo': [],
+                'in-progress': [],
+                'done': []
+            };
+
+            result.forEach(task => {
+                if (groups[task.status]) {
+                    groups[task.status].push(task);
+                }
+            });
+
+            return { grouped: true, groups };
+        }
+
+        return { grouped: false, tasks: result };
+    }, [tasks, filter, groupBy]);
 
     const handleCreate = () => {
         setEditingTask(null);
@@ -87,6 +126,8 @@ export default function DashboardPage() {
                     </Button>
                 </header>
 
+                <TaskControls />
+
                 {tasks.length === 0 && !isLoading ? (
                     <div className="text-center py-20 bg-[var(--card)] rounded-xl border border-dashed border-[var(--border)]">
                         <h3 className="text-lg font-medium text-slate-800 dark:text-slate-50">No tasks found</h3>
@@ -96,10 +137,42 @@ export default function DashboardPage() {
                         </Button>
                     </div>
                 ) : (
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        {tasks.map((task) => (
-                            <TaskCard key={task.id} task={task} onEdit={handleEdit} />
-                        ))}
+                    <div className="space-y-12">
+                        {filteredAndGroupedTasks.grouped ? (
+                            Object.entries(filteredAndGroupedTasks.groups).map(([status, groupTasks]) => (
+                                groupTasks.length > 0 && (
+                                    <div key={status} className="space-y-4">
+                                        <div className="flex items-center gap-2">
+                                            <div className={cn(
+                                                "w-3 h-3 rounded-full",
+                                                status === 'todo' ? "bg-yellow-400" :
+                                                    status === 'in-progress' ? "bg-blue-400" : "bg-green-400"
+                                            )} />
+                                            <h2 className="text-lg font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                                                {status.replace('-', ' ')} ({groupTasks.length})
+                                            </h2>
+                                        </div>
+                                        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                                            {groupTasks.map((task) => (
+                                                <TaskCard key={task.id} task={task} onEdit={handleEdit} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )
+                            ))
+                        ) : (
+                            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                                {filteredAndGroupedTasks.tasks.map((task) => (
+                                    <TaskCard key={task.id} task={task} onEdit={handleEdit} />
+                                ))}
+                            </div>
+                        )}
+
+                        {!filteredAndGroupedTasks.grouped && filteredAndGroupedTasks.tasks.length === 0 && (
+                            <div className="text-center py-20">
+                                <p className="text-slate-500">No tasks match the selected filter.</p>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

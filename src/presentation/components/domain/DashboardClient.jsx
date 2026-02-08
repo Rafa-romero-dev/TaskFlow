@@ -148,7 +148,7 @@ export default function DashboardClient({ tasksPromise }) {
                 <TaskControls />
 
                 {optimisticTasks.length === 0 ? (
-                    <div className="text-center py-20 bg-[var(--card)] rounded-xl border border-dashed border-[var(--border)]">
+                    <div className="text-center py-20 bg-[var(--card)] rounded-xl border border-dashed border-[var(--border)]" data-testid="empty-state">
                         <h3 className="text-lg font-medium text-slate-800 dark:text-slate-50">{t.dashboard.noTasks}</h3>
                         <p className="text-slate-800 dark:text-slate-50 opacity-70 mt-1">{t.dashboard.getStarted}</p>
                         <Button variant="outline" onClick={handleCreate} className="mt-4">
@@ -156,18 +156,18 @@ export default function DashboardClient({ tasksPromise }) {
                         </Button>
                     </div>
                 ) : (
-                    <div className="space-y-12">
+                    <div className="space-y-12" data-testid="task-list">
                         {filteredAndGroupedTasks.grouped ? (
                             Object.entries(filteredAndGroupedTasks.groups).map(([status, groupTasks]) => (
                                 groupTasks.length > 0 && (
-                                    <div key={status} className="space-y-4">
+                                    <div key={status} className="space-y-4" data-testid={`group-${status}`}>
                                         <div className="flex items-center gap-2">
                                             <div className={cn(
                                                 "w-3 h-3 rounded-full",
                                                 status === 'todo' ? "bg-yellow-400" :
                                                     status === 'in-progress' ? "bg-blue-400" : "bg-green-400"
                                             )} />
-                                            <h2 className="text-lg font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                                            <h2 className="text-lg font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400" data-testid={`group-header-${status}`}>
                                                 {status.replace('-', ' ')} ({groupTasks.length})
                                             </h2>
                                         </div>
@@ -186,7 +186,7 @@ export default function DashboardClient({ tasksPromise }) {
                                 )
                             ))
                         ) : (
-                            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-testid="task-list-simple">
                                 {filteredAndGroupedTasks.tasks.map((task) => (
                                     <TaskCard
                                         key={task.id}
@@ -200,7 +200,7 @@ export default function DashboardClient({ tasksPromise }) {
                         )}
 
                         {!filteredAndGroupedTasks.grouped && filteredAndGroupedTasks.tasks.length === 0 && (
-                            <div className="text-center py-20">
+                            <div className="text-center py-20" data-testid="no-matches-message">
                                 <p className="text-slate-500">{t.dashboard.noMatches}</p>
                             </div>
                         )}
@@ -233,12 +233,14 @@ export default function DashboardClient({ tasksPromise }) {
                                 variant="outline"
                                 className="flex-1 rounded-xl"
                                 onClick={() => setTaskToDelete(null)}
+                                data-testid="cancel-delete"
                             >
                                 {t.common.cancel}
                             </Button>
                             <Button
                                 className="flex-1 bg-red-600 hover:bg-red-700 text-white rounded-xl border-none"
                                 onClick={handleConfirmDelete}
+                                data-testid="confirm-delete"
                             >
                                 {t.common.delete}
                             </Button>

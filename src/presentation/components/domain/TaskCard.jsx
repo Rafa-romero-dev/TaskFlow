@@ -23,15 +23,19 @@ export function TaskCard({ task, onEdit, onDelete, onToggleStatus }) {
     };
 
     return (
-        <Card className={cn(
-            "hover:scale-[1.02] transition-all duration-200 group",
-            task.isPending && "opacity-60 grayscale-[0.5] animate-pulse border-indigo-400"
-        )}>
+        <Card
+            data-testid={`task-card-${task.id}`}
+            className={cn(
+                "hover:scale-[1.02] transition-all duration-200 group",
+                task.isPending && "opacity-60 grayscale-[0.5] animate-pulse border-indigo-400"
+            )}
+        >
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-xl font-bold truncate pr-4">{task.title}</CardTitle>
+                <CardTitle className="text-xl font-bold truncate pr-4" data-testid="task-title">{task.title}</CardTitle>
                 <button
                     onClick={() => onToggleStatus(task)}
                     title="Change Status"
+                    data-testid="status-toggle"
                     className={cn(
                         'px-2.5 py-0.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors cursor-pointer border-none shadow-sm active:scale-95',
                         statusColors[task.status] || statusColors.todo
@@ -41,15 +45,15 @@ export function TaskCard({ task, onEdit, onDelete, onToggleStatus }) {
                 </button>
             </CardHeader>
             <CardContent>
-                <p className="text-slate-600 dark:text-slate-300 text-sm line-clamp-3">
+                <p className="text-slate-600 dark:text-slate-300 text-sm line-clamp-3" data-testid="task-description">
                     {task.description}
                 </p>
             </CardContent>
             <CardFooter className="flex justify-end gap-2 pt-2">
-                <Button variant="ghost" size="icon" onClick={() => onEdit(task)}>
+                <Button variant="ghost" size="icon" onClick={() => onEdit(task)} data-testid="edit-task">
                     <Edit className="h-4 w-4" />
                 </Button>
-                <Button variant="ghost" size="icon" onClick={() => onDelete(task.id)} className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">
+                <Button variant="ghost" size="icon" onClick={() => onDelete(task.id)} data-testid="delete-task" className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">
                     <Trash className="h-4 w-4" />
                 </Button>
             </CardFooter>

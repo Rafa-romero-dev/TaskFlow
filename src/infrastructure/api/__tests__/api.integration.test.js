@@ -13,10 +13,15 @@ describe('API Integration Tests', () => {
             const request = new Request(`${baseUrl}/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: 'test@example.com', password: 'password123' }),
+                body: JSON.stringify({ email: 'test@example.com', password: '123pass456' }),
             });
             const response = await loginUser(request);
             expect(response.status).toBe(200);
+
+            // Check for cookie
+            const cookie = response.headers.get('set-cookie');
+            expect(cookie).toContain('session_token=fake-jwt-token');
+
             const data = await response.json();
             expect(data).toHaveProperty('token');
             expect(data.user).toHaveProperty('email', 'test@example.com');

@@ -39,7 +39,7 @@ export function TaskForm({ initialData = {}, onSubmit, onCancel, className }) {
                 <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
                     {initialData.id ? t.form.editTask : t.form.createTask}
                 </h3>
-                <Button type="button" variant="ghost" size="icon" onClick={onCancel}>
+                <Button type="button" variant="ghost" size="icon" onClick={onCancel} data-testid="task-form-cancel-top">
                     <X className="h-4 w-4" />
                     <span className="sr-only">{t.form.cancel}</span>
                 </Button>
@@ -88,10 +88,10 @@ export function TaskForm({ initialData = {}, onSubmit, onCancel, className }) {
             </div>
 
             <div className="flex justify-end gap-2 pt-2">
-                <Button type="button" variant="outline" onClick={onCancel}>
+                <Button type="button" variant="outline" onClick={onCancel} data-testid="task-form-cancel-bottom">
                     {t.form.cancel}
                 </Button>
-                <Button type="submit" disabled={isSubmitting}>
+                <Button type="submit" disabled={isSubmitting} data-testid="task-form-submit">
                     {isSubmitting ? t.form.save + '...' : t.form.save}
                 </Button>
             </div>

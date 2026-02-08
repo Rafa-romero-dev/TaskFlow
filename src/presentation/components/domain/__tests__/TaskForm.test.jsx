@@ -57,7 +57,7 @@ describe('TaskForm', () => {
     it('calls onCancel when cancel button clicked', () => {
         render(<TaskForm onSubmit={onSubmitMock} onCancel={onCancelMock} />);
 
-        fireEvent.click(screen.getByRole('button', { name: /cancel/i }));
+        fireEvent.click(screen.getByTestId('task-form-cancel-bottom'));
 
         expect(onCancelMock).toHaveBeenCalled();
     });

@@ -92,4 +92,10 @@ describe('TaskForm', () => {
 
         expect(screen.getByLabelText(/status/i)).toHaveValue('done');
     });
+
+    it('enforces 80 character limit on title', () => {
+        render(<TaskForm onSubmit={onSubmitMock} onCancel={onCancelMock} />);
+        const titleInput = screen.getByLabelText(/title/i);
+        expect(titleInput).toHaveAttribute('maxLength', '80');
+    });
 });

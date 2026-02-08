@@ -10,7 +10,7 @@ import { X } from 'lucide-react';
 import { useLanguageStore } from '@/presentation/store/useLanguageStore';
 
 const schema = z.object({
-    title: z.string().min(1, 'Required'),
+    title: z.string().min(1, 'Title is required').max(80, 'Max 80 characters'),
     description: z.string().optional(),
     status: z.enum(['todo', 'in-progress', 'done']).default('todo'),
 });
@@ -53,9 +53,10 @@ export function TaskForm({ initialData = {}, onSubmit, onCancel, className }) {
                     id="title"
                     placeholder={t.form.titlePlaceholder}
                     {...register('title')}
+                    maxLength={80}
                     className={cn(errors.title && "border-red-500 focus-visible:ring-red-500")}
                 />
-                {errors.title && <p className="text-xs text-red-500">{t.form.required}</p>}
+                {errors.title && <p className="text-xs text-red-500">{errors.title.message || t.form.required}</p>}
             </div>
 
             <div className="space-y-2">

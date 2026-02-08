@@ -125,7 +125,7 @@ export default function DashboardClient({ tasksPromise }) {
 
     return (
         <div className="bg-pattern-grid min-h-screen bg-[var(--background)] p-6 transition-colors duration-500">
-            <div className="max-w-7xl mx-auto space-y-8">
+            <div className="max-w-[600px] lg:max-w-7xl mx-auto space-y-8">
                 <header className="flex flex-col gap-4">
                     <div className="flex items-center justify-between">
                         <div>

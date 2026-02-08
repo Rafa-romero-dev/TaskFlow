@@ -26,12 +26,12 @@ export function TaskCard({ task, onEdit, onDelete, onToggleStatus }) {
         <Card
             data-testid={`task-card-${task.id}`}
             className={cn(
-                "hover:scale-[1.02] transition-all duration-200 group",
+                "hover:scale-[1.02] transition-all duration-200 group w-full min-w-0",
                 task.isPending && "opacity-60 grayscale-[0.5] animate-pulse border-indigo-400"
             )}
         >
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-xl font-bold truncate pr-4" data-testid="task-title">{task.title}</CardTitle>
+                <CardTitle className="text-xl font-bold truncate pr-4 flex-1 min-w-0" data-testid="task-title">{task.title}</CardTitle>
                 <button
                     onClick={() => onToggleStatus(task)}
                     title="Change Status"

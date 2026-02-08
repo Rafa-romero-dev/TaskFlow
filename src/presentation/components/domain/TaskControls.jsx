@@ -29,7 +29,7 @@ const TaskControls = () => {
     ];
 
     return (
-        <div className="flex flex-col sm:flex-row items-end gap-4 bg-[var(--card)] p-4 rounded-2xl border border-[var(--border)] shadow-sm">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-end gap-4 bg-[var(--card)] p-4 rounded-2xl border border-[var(--border)] shadow-sm">
             <Dropdown
                 label={t.controls.filterBy}
                 options={filterOptions}

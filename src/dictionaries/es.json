@@ -50,5 +50,9 @@
         "invalidCredentials": "Credenciales inválidas",
         "invalidEmail": "Correo electrónico inválido",
         "passwordLength": "La contraseña debe tener al menos 6 caracteres"
+    },
+    "common": {
+        "validatingSession": "Validando Sesión...",
+        "redirecting": "Redireccionando..."
     }
 }

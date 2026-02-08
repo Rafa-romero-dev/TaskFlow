@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import en from '../../../src/dictionaries/en.json';
-import es from '../../../src/dictionaries/es.json';
+import en from '@/dictionaries/en.json';
+import es from '@/dictionaries/es.json';
 
 const dictionaries = { en, es };
 

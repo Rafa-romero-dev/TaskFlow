@@ -27,12 +27,22 @@ export default function DashboardPage() {
     } = useTaskStore();
     const { t } = useLanguageStore();
     const router = useRouter();
+    const [isCheckingAuth, setIsCheckingAuth] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingTask, setEditingTask] = useState(null);
 
     useEffect(() => {
-        fetchTasks();
-    }, [fetchTasks]);
+        const token = localStorage.getItem('token');
+        if (!token) {
+            router.replace('/login');
+        } else {
+            // Defer to avoid direct setState in effect warning
+            Promise.resolve().then(() => {
+                setIsCheckingAuth(false);
+                fetchTasks();
+            });
+        }
+    }, [fetchTasks, router]);
 
     const filteredAndGroupedTasks = useMemo(() => {
         let result = tasks;
@@ -61,6 +71,14 @@ export default function DashboardPage() {
 
         return { grouped: false, tasks: result };
     }, [tasks, filter, groupBy]);
+
+    if (isCheckingAuth) {
+        return (
+            <div className="flex items-center justify-center min-h-screen text-[var(--primary)] bg-[var(--background)]">
+                <div className="animate-pulse font-bold tracking-widest uppercase text-sm">{t.common.validatingSession}</div>
+            </div>
+        );
+    }
 
     const handleCreate = () => {
         setEditingTask(null);

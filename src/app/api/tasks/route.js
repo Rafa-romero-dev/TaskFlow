@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { tasks, idCounter, delay } from '@/infrastructure/db/memory';
-
+import { tasks, delay } from '@/infrastructure/db/memory';
 
 export async function GET() {
     await delay(500);
@@ -13,16 +12,8 @@ export async function POST(request) {
     try {
         const { title, description, status } = await request.json();
 
-        // In a real app, I'd increment idCounter properly, but here we can export/import mutable let variable
-        // Wait, imports are live bindings, but reassigning exported `let` from another module doesn't work as expected if I want to update `idCounter` in `memory.js`.
-        // I should probably have a function to add task in memory.js to encapsulate state mutation. 
-        // But for now let's just push to the array.
-        // However, importing `idCounter` implies I can read it. To update it I need a function.
-
-        // Let's just generate ID randomly or use a function in memory.js if I want strictly clean code.
-        // I'll update `memory.js` afterwards to be better if needed, but for now:
-
-        const id = String(Date.now()); // Simple unique ID
+        // Simple unique ID generation for the mock DB
+        const id = String(Date.now());
         const newTask = {
             id,
             title,
@@ -31,8 +22,6 @@ export async function POST(request) {
         };
 
         tasks.push(newTask);
-        console.log('Task created:', newTask);
-        console.log('Current memory tasks count:', tasks.length);
 
         return NextResponse.json(newTask, { status: 201 });
     } catch (error) {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useOptimistic, useTransition, useState, useMemo } from 'react';
+import React, { use, useOptimistic, useTransition, useState } from 'react';
 import { useTaskStore } from '@/presentation/store/useTaskStore';
 import { TaskCard } from '@/presentation/components/domain/TaskCard';
 import { TaskForm } from '@/presentation/components/domain/TaskForm';
@@ -160,14 +160,14 @@ export default function DashboardClient({ tasksPromise }) {
                         {filteredAndGroupedTasks.grouped ? (
                             Object.entries(filteredAndGroupedTasks.groups).map(([status, groupTasks]) => (
                                 groupTasks.length > 0 && (
-                                    <div key={status} className="space-y-4" data-testid={`group-${status}`}>
+                                    <div key={status} className="space-y-4" data-testid={`group - ${status} `}>
                                         <div className="flex items-center gap-2">
                                             <div className={cn(
                                                 "w-3 h-3 rounded-full",
                                                 status === 'todo' ? "bg-yellow-400" :
                                                     status === 'in-progress' ? "bg-blue-400" : "bg-green-400"
                                             )} />
-                                            <h2 className="text-lg font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400" data-testid={`group-header-${status}`}>
+                                            <h2 className="text-lg font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400" data-testid={`group - header - ${status} `}>
                                                 {status.replace('-', ' ')} ({groupTasks.length})
                                             </h2>
                                         </div>

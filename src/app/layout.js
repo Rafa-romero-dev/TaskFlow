@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from '@/presentation/providers/ThemeProvider';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,7 +22,6 @@ export const metadata = {
   },
 };
 
-import { ThemeProvider } from '@/presentation/providers/ThemeProvider';
 
 export default function RootLayout({ children }) {
   return (

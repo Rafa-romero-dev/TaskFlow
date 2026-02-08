@@ -13,8 +13,6 @@ export async function addTaskAction(data) {
     };
 
     tasks.push(newTask);
-    console.log('Server Action: Task Added', newTask);
-
     revalidatePath('/dashboard');
     return newTask;
 }
@@ -23,7 +21,6 @@ export async function updateTaskAction(id, data) {
     const index = tasks.findIndex(t => t.id === id);
     if (index !== -1) {
         tasks[index] = { ...tasks[index], ...data };
-        console.log('Server Action: Task Updated', id);
         revalidatePath('/dashboard');
     }
 }
@@ -32,7 +29,6 @@ export async function deleteTaskAction(id) {
     const index = tasks.findIndex(t => t.id === id);
     if (index !== -1) {
         tasks.splice(index, 1);
-        console.log('Server Action: Task Deleted', id);
         revalidatePath('/dashboard');
     }
 }

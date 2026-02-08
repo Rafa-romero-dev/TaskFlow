@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useLanguageStore } from '@/presentation/store/useLanguageStore';
 import { LanguageToggle } from '@/presentation/components/ui/LanguageToggle';
+import { addTaskAction, updateTaskAction, deleteTaskAction } from '@/app/actions/tasks';
 
 export default function DashboardClient({ tasksPromise }) {
     // 1. Consumer of the Server Promise using React 19 use()
@@ -34,7 +35,7 @@ export default function DashboardClient({ tasksPromise }) {
         }
     );
 
-    const { filter, groupBy, addTask, updateTask, deleteTask } = useTaskStore();
+    const { filter, groupBy } = useTaskStore();
     const { t } = useLanguageStore();
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
@@ -78,10 +79,10 @@ export default function DashboardClient({ tasksPromise }) {
         startTransition(async () => {
             if (editingTask) {
                 addOptimisticTask({ action: 'update', task: { ...editingTask, ...data } });
-                await updateTask(editingTask.id, data);
+                await updateTaskAction(editingTask.id, data);
             } else {
                 addOptimisticTask({ action: 'add', task: { ...data, status: 'todo' } });
-                await addTask(data);
+                await addTaskAction(data);
             }
             handleClose();
         });
@@ -90,7 +91,21 @@ export default function DashboardClient({ tasksPromise }) {
     const handleDelete = (id) => {
         startTransition(async () => {
             addOptimisticTask({ action: 'delete', task: { id } });
-            await deleteTask(id);
+            await deleteTaskAction(id);
+        });
+    };
+
+    const handleStatusCycle = (task) => {
+        const statusMap = {
+            'todo': 'in-progress',
+            'in-progress': 'done',
+            'done': 'todo'
+        };
+        const nextStatus = statusMap[task.status] || 'todo';
+
+        startTransition(async () => {
+            addOptimisticTask({ action: 'update', task: { ...task, status: nextStatus } });
+            await updateTaskAction(task.id, { status: nextStatus });
         });
     };
 
@@ -155,6 +170,7 @@ export default function DashboardClient({ tasksPromise }) {
                                                     task={task}
                                                     onEdit={handleEdit}
                                                     onDelete={() => handleDelete(task.id)}
+                                                    onToggleStatus={handleStatusCycle}
                                                 />
                                             ))}
                                         </div>
@@ -169,6 +185,7 @@ export default function DashboardClient({ tasksPromise }) {
                                         task={task}
                                         onEdit={handleEdit}
                                         onDelete={() => handleDelete(task.id)}
+                                        onToggleStatus={handleStatusCycle}
                                     />
                                 ))}
                             </div>

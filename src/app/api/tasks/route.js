@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { tasks, idCounter, delay } from '@/infrastructure/db/memory';
-import { Task } from '@/core/entities/Task';
+
 
 export async function GET() {
     await delay(500);
@@ -23,9 +23,16 @@ export async function POST(request) {
         // I'll update `memory.js` afterwards to be better if needed, but for now:
 
         const id = String(Date.now()); // Simple unique ID
-        const newTask = new Task(id, title, description, status || 'todo');
+        const newTask = {
+            id,
+            title,
+            description,
+            status: status || 'todo'
+        };
 
         tasks.push(newTask);
+        console.log('Task created:', newTask);
+        console.log('Current memory tasks count:', tasks.length);
 
         return NextResponse.json(newTask, { status: 201 });
     } catch (error) {

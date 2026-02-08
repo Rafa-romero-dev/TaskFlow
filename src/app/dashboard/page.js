@@ -10,6 +10,8 @@ import { ModeToggle } from '@/presentation/components/ui/ModeToggle';
 import { Plus, LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { useLanguageStore } from '@/presentation/store/useLanguageStore';
+import { LanguageToggle } from '@/presentation/components/ui/LanguageToggle';
 
 
 export default function DashboardPage() {
@@ -23,6 +25,7 @@ export default function DashboardPage() {
         filter,
         groupBy
     } = useTaskStore();
+    const { t } = useLanguageStore();
     const router = useRouter();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingTask, setEditingTask] = useState(null);
@@ -92,7 +95,7 @@ export default function DashboardPage() {
     if (isLoading && tasks.length === 0) {
         return (
             <div className="flex items-center justify-center min-h-screen text-slate-500 animate-pulse bg-slate-50 dark:bg-slate-950">
-                Loading tasks...
+                {t.dashboard.loading}
             </div>
         );
     }
@@ -111,18 +114,19 @@ export default function DashboardPage() {
                 <header className="flex flex-col gap-4">
                     <div className="flex items-center justify-between">
                         <div>
-                            <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-50">TaskFlow</h1>
-                            <p className="text-slate-800 dark:text-slate-50 opacity-70">Manage your daily goals</p>
+                            <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-50">{t.dashboard.title}</h1>
+                            <p className="text-slate-800 dark:text-slate-50 opacity-70">{t.dashboard.subtitle}</p>
                         </div>
                         <div className="flex items-center gap-2">
+                            <LanguageToggle />
                             <ModeToggle />
-                            <Button variant="ghost" size="icon" onClick={handleLogout} title="Logout">
+                            <Button variant="ghost" size="icon" onClick={handleLogout} title={t.dashboard.logout}>
                                 <LogOut className="h-[1.2rem] w-[1.2rem] text-red-500 hover:text-slate-950 transition-colors" />
                             </Button>
                         </div>
                     </div>
                     <Button onClick={handleCreate} className="w-full sm:w-auto sm:self-end shadow-lg hover:shadow-indigo-500/20 transition-shadow">
-                        <Plus className="mr-2 h-4 w-4" /> New Task
+                        <Plus className="mr-2 h-4 w-4" /> {t.dashboard.newTask}
                     </Button>
                 </header>
 
@@ -130,10 +134,10 @@ export default function DashboardPage() {
 
                 {tasks.length === 0 && !isLoading ? (
                     <div className="text-center py-20 bg-[var(--card)] rounded-xl border border-dashed border-[var(--border)]">
-                        <h3 className="text-lg font-medium text-slate-800 dark:text-slate-50">No tasks found</h3>
-                        <p className="text-slate-800 dark:text-slate-50 opacity-70 mt-1">Get started by creating a new task.</p>
+                        <h3 className="text-lg font-medium text-slate-800 dark:text-slate-50">{t.dashboard.noTasks}</h3>
+                        <p className="text-slate-800 dark:text-slate-50 opacity-70 mt-1">{t.dashboard.getStarted}</p>
                         <Button variant="outline" onClick={handleCreate} className="mt-4">
-                            Create Task
+                            {t.dashboard.createTask}
                         </Button>
                     </div>
                 ) : (
@@ -170,7 +174,7 @@ export default function DashboardPage() {
 
                         {!filteredAndGroupedTasks.grouped && filteredAndGroupedTasks.tasks.length === 0 && (
                             <div className="text-center py-20">
-                                <p className="text-slate-500">No tasks match the selected filter.</p>
+                                <p className="text-slate-500">{t.dashboard.noMatches}</p>
                             </div>
                         )}
                     </div>

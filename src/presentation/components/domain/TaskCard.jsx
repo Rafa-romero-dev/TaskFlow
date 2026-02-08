@@ -5,8 +5,11 @@ import { cn } from '@/lib/utils';
 import React from 'react';
 import { Edit, Trash } from 'lucide-react';
 
+import { useLanguageStore } from '@/presentation/store/useLanguageStore';
+
 export function TaskCard({ task, onEdit }) {
     const { deleteTask } = useTaskStore();
+    const { t } = useLanguageStore();
 
     const statusColors = {
         'todo': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
@@ -15,9 +18,9 @@ export function TaskCard({ task, onEdit }) {
     };
 
     const statusLabels = {
-        'todo': '📋 To Do',
-        'in-progress': '🚀 In Progress',
-        'done': '✅ Done',
+        'todo': `📋 ${t.status.todo}`,
+        'in-progress': `🚀 ${t.status.inProgress}`,
+        'done': `✅ ${t.status.done}`,
     };
 
     return (

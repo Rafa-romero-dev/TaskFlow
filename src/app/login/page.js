@@ -12,15 +12,20 @@ import { ModeToggle } from '@/presentation/components/ui/ModeToggle';
 import { cn } from '@/lib/utils';
 import { MoveRightIcon } from 'lucide-react';
 
-const schema = z.object({
-    email: z.string().email('Invalid email address'),
-    password: z.string().min(6, 'Password must be at least 6 characters'),
-});
+import { useLanguageStore } from '@/presentation/store/useLanguageStore';
+import { LanguageToggle } from '@/presentation/components/ui/LanguageToggle';
 
 export default function LoginPage() {
+    const { t } = useLanguageStore();
     const router = useRouter();
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+
+    // Dynamic schema for localized errors (simple approach)
+    const schema = z.object({
+        email: z.string().email(t.login.invalidEmail),
+        password: z.string().min(6, t.login.passwordLength),
+    });
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(schema),
@@ -37,7 +42,7 @@ export default function LoginPage() {
             });
 
             if (!response.ok) {
-                throw new Error('Invalid credentials');
+                throw new Error(t.login.invalidCredentials);
             }
 
             const result = await response.json();
@@ -52,26 +57,27 @@ export default function LoginPage() {
 
     return (
         <div className="bg-pattern-grid min-h-screen flex items-center justify-center p-4 bg-[var(--background)] transition-colors duration-500">
-            <div className="absolute top-4 right-4">
+            <div className="absolute top-4 right-4 flex items-center gap-2">
+                <LanguageToggle />
                 <ModeToggle />
             </div>
             <Card className="w-full max-w-md shadow-2xl bg-[var(--card)] border-[var(--border)] animate-slide-up">
                 <CardHeader>
                     <CardTitle className="text-3xl font-bold text-center bg-clip-text bg-gradient-to-r">
-                        Welcome Back
+                        {t.login.title}
                     </CardTitle>
                     <CardDescription className="text-center opacity-70">
-                        Enter your credentials to access your mission control.
+                        {t.login.description}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-stone-950 dark:text-stone-100" htmlFor="email">Email</label>
+                            <label className="text-sm font-medium text-stone-950 dark:text-stone-100" htmlFor="email">{t.login.email}</label>
                             <Input
                                 id="email"
                                 type="email"
-                                placeholder="commander@base.com"
+                                placeholder={t.login.emailPlaceholder}
                                 {...register('email')}
                                 className={cn(errors.email && "border-red-500 focus-visible:ring-red-500")}
                             />
@@ -79,11 +85,11 @@ export default function LoginPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-stone-950 dark:text-stone-100" htmlFor="password">Password</label>
+                            <label className="text-sm font-medium text-stone-950 dark:text-stone-100" htmlFor="password">{t.login.password}</label>
                             <Input
                                 id="password"
                                 type="password"
-                                placeholder="masterpassword"
+                                placeholder={t.login.passwordPlaceholder}
                                 {...register('password')}
                                 className={cn(errors.password && "border-red-500 focus-visible:ring-red-500")}
                             />
@@ -103,7 +109,7 @@ export default function LoginPage() {
                                 "group relative inline-flex h-12 w-full items-center justify-center overflow-hidden rounded-md bg-neutral-950 dark:bg-[var(--border)] px-6 font-medium text-neutral-200 transition-all hover:bg-[var(--secondary)] hover:text-neutral-950 dark:hover:bg-[var(--background)] dark:hover:text-[var(--foreground)] disabled:opacity-50",
                                 isLoading && "cursor-not-allowed opacity-70"
                             )}>
-                            <span className="mr-2">{isLoading ? 'Authenticating...' : 'Login'}</span>
+                            <span className="mr-2">{isLoading ? t.login.authenticating : t.login.login}</span>
                             <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100">
                                 <MoveRightIcon className="h-5 w-5" />
                             </div>
@@ -112,7 +118,7 @@ export default function LoginPage() {
                 </CardContent>
                 <CardFooter className="justify-center">
                     <p className="text-xs text-slate-900 dark:text-slate-200 opacity-50">
-                        Secure System v1.0
+                        {t.login.secureSystem}
                     </p>
                 </CardFooter>
             </Card>

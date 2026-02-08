@@ -11,36 +11,38 @@ import {
     StretchHorizontal
 } from 'lucide-react';
 
+import { useLanguageStore } from '@/presentation/store/useLanguageStore';
 const TaskControls = () => {
     const { filter, setFilter, groupBy, setGroupBy } = useTaskStore();
+    const { t } = useLanguageStore();
 
     const filterOptions = [
-        { value: 'all', label: 'All Tasks', icon: Filter },
-        { value: 'todo', label: 'To Do', icon: Circle },
-        { value: 'in-progress', label: 'In Progress', icon: Timer },
-        { value: 'done', label: 'Done', icon: CheckCircle2 },
+        { value: 'all', label: t.controls.allTasks, icon: Filter },
+        { value: 'todo', label: t.controls.todo, icon: Circle },
+        { value: 'in-progress', label: t.controls.inProgress, icon: Timer },
+        { value: 'done', label: t.controls.done, icon: CheckCircle2 },
     ];
 
     const groupOptions = [
-        { value: 'none', label: 'No Grouping', icon: StretchHorizontal },
-        { value: 'status', label: 'By Status', icon: LayoutGrid },
+        { value: 'none', label: t.controls.none, icon: StretchHorizontal },
+        { value: 'status', label: t.controls.byStatus, icon: LayoutGrid },
     ];
 
     return (
         <div className="flex flex-col sm:flex-row items-end gap-4 bg-[var(--card)] p-4 rounded-2xl border border-[var(--border)] shadow-sm">
             <Dropdown
-                label="Filter by"
+                label={t.controls.filterBy}
                 options={filterOptions}
                 value={filter}
                 onChange={setFilter}
-                placeholder="All Tasks"
+                placeholder={t.controls.allTasks}
             />
             <Dropdown
-                label="Group by"
+                label={t.controls.groupBy}
                 options={groupOptions}
                 value={groupBy}
                 onChange={setGroupBy}
-                placeholder="No Grouping"
+                placeholder={t.controls.none}
             />
         </div>
     );

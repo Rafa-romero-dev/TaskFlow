@@ -1,0 +1,54 @@
+{
+    "dashboard": {
+        "title": "TaskFlow",
+        "subtitle": "Gestiona tus objetivos diarios",
+        "newTask": "Nueva Tarea",
+        "loading": "Cargando tareas...",
+        "noTasks": "No se encontraron tareas",
+        "getStarted": "Comienza creando una nueva tarea.",
+        "createTask": "Crear Tarea",
+        "noMatches": "Ninguna tarea coincide con el filtro seleccionado.",
+        "logout": "Cerrar sesión"
+    },
+    "controls": {
+        "filterBy": "Filtrar por",
+        "groupBy": "Agrupar por",
+        "allTasks": "Todas las tareas",
+        "todo": "Por hacer",
+        "inProgress": "En progreso",
+        "done": "Completado",
+        "none": "Sin agrupar",
+        "byStatus": "Por estado"
+    },
+    "form": {
+        "editTask": "Editar Tarea",
+        "createTask": "Crear Nueva Tarea",
+        "title": "Título",
+        "titlePlaceholder": "Título de la tarea",
+        "description": "Descripción",
+        "descriptionPlaceholder": "Descripción de la tarea",
+        "status": "Estado",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "required": "El título es obligatorio"
+    },
+    "status": {
+        "todo": "Por hacer",
+        "inProgress": "En progreso",
+        "done": "Completado"
+    },
+    "login": {
+        "title": "Bienvenido de nuevo",
+        "description": "Ingrese sus credenciales para acceder a su centro de control.",
+        "email": "Correo electrónico",
+        "emailPlaceholder": "comandante@base.com",
+        "password": "Contraseña",
+        "passwordPlaceholder": "contraseñamaestra",
+        "login": "Entrar",
+        "authenticating": "Autenticando...",
+        "secureSystem": "Sistema Seguro v1.0",
+        "invalidCredentials": "Credenciales inválidas",
+        "invalidEmail": "Correo electrónico inválido",
+        "passwordLength": "La contraseña debe tener al menos 6 caracteres"
+    }
+}

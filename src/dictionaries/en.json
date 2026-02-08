@@ -1,0 +1,54 @@
+{
+    "dashboard": {
+        "title": "TaskFlow",
+        "subtitle": "Manage your daily goals",
+        "newTask": "New Task",
+        "loading": "Loading tasks...",
+        "noTasks": "No tasks found",
+        "getStarted": "Get started by creating a new task.",
+        "createTask": "Create Task",
+        "noMatches": "No tasks match the selected filter.",
+        "logout": "Logout"
+    },
+    "controls": {
+        "filterBy": "Filter by",
+        "groupBy": "Group by",
+        "allTasks": "All Tasks",
+        "todo": "To Do",
+        "inProgress": "In Progress",
+        "done": "Done",
+        "none": "No Grouping",
+        "byStatus": "By Status"
+    },
+    "form": {
+        "editTask": "Edit Task",
+        "createTask": "Create New Task",
+        "title": "Title",
+        "titlePlaceholder": "Task title",
+        "description": "Description",
+        "descriptionPlaceholder": "Task description",
+        "status": "Status",
+        "save": "Save",
+        "cancel": "Cancel",
+        "required": "Title is required"
+    },
+    "status": {
+        "todo": "To Do",
+        "inProgress": "In Progress",
+        "done": "Done"
+    },
+    "login": {
+        "title": "Welcome Back",
+        "description": "Enter your credentials to access your mission control.",
+        "email": "Email",
+        "emailPlaceholder": "commander@base.com",
+        "password": "Password",
+        "passwordPlaceholder": "masterpassword",
+        "login": "Login",
+        "authenticating": "Authenticating...",
+        "secureSystem": "Secure System v1.0",
+        "invalidCredentials": "Invalid credentials",
+        "invalidEmail": "Invalid email address",
+        "passwordLength": "Password must be at least 6 characters"
+    }
+}

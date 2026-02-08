@@ -53,6 +53,10 @@
     },
     "common": {
         "validatingSession": "Validando Sesión...",
-        "redirecting": "Redireccionando..."
+        "redirecting": "Redireccionando...",
+        "confirmDelete": "¿Estás seguro de que quieres eliminar esta tarea?",
+        "deleteAction": "Eliminar Tarea",
+        "delete": "Eliminar",
+        "cancel": "Cancelar"
     }
 }

@@ -42,6 +42,7 @@ export default function DashboardClient({ tasksPromise }) {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingTask, setEditingTask] = useState(null);
+    const [taskToDelete, setTaskToDelete] = useState(null);
 
     // 3. React 19 Compiler handles memoization automatically
     let filteredTasks = optimisticTasks;
@@ -89,9 +90,16 @@ export default function DashboardClient({ tasksPromise }) {
     };
 
     const handleDelete = (id) => {
+        setTaskToDelete(id);
+    };
+
+    const handleConfirmDelete = () => {
+        if (!taskToDelete) return;
+        const id = taskToDelete;
         startTransition(async () => {
             addOptimisticTask({ action: 'delete', task: { id } });
             await deleteTaskAction(id);
+            setTaskToDelete(null);
         });
     };
 
@@ -208,6 +216,33 @@ export default function DashboardClient({ tasksPromise }) {
                             onSubmit={handleSubmit}
                             onCancel={handleClose}
                         />
+                    </div>
+                </div>
+            )}
+
+            {taskToDelete && (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-md p-4 animate-in fade-in duration-300">
+                    <div className="bg-[var(--card)] border border-[var(--border)] p-8 rounded-2xl shadow-2xl max-w-sm w-full animate-in zoom-in-95 duration-200 text-center">
+                        <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <Plus className="rotate-45 h-8 w-8" />
+                        </div>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-2">{t.common.deleteAction}</h3>
+                        <p className="text-slate-600 dark:text-slate-400 mb-8">{t.common.confirmDelete}</p>
+                        <div className="flex gap-4">
+                            <Button
+                                variant="outline"
+                                className="flex-1 rounded-xl"
+                                onClick={() => setTaskToDelete(null)}
+                            >
+                                {t.common.cancel}
+                            </Button>
+                            <Button
+                                className="flex-1 bg-red-600 hover:bg-red-700 text-white rounded-xl border-none"
+                                onClick={handleConfirmDelete}
+                            >
+                                {t.common.delete}
+                            </Button>
+                        </div>
                     </div>
                 </div>
             )}

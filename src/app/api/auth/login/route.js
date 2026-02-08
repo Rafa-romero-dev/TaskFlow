@@ -7,7 +7,7 @@ export async function POST(request) {
     try {
         const { email, password } = await request.json();
 
-        if (email === 'test@example.com' && password === 'password123') {
+        if (email === 'test@example.com' && password === '123pass456') {
             return NextResponse.json({
                 token: 'fake-jwt-token',
                 user: {

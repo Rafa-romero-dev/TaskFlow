@@ -24,7 +24,6 @@ export async function PUT(request, { params }) {
 
     try {
         const body = await request.json();
-        // Update fields
         tasks[index] = { ...tasks[index], ...body };
 
         return NextResponse.json(tasks[index]);

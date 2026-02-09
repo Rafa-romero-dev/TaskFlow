@@ -1,17 +1,63 @@
-/** @type {import('next').NextConfig} */
 import withPWAInit from 'next-pwa';
 
 const withPWA = withPWAInit({
   dest: 'public',
-  disable: process.env.NODE_ENV === 'development', // Desactivar PWA en dev para que no moleste
+  disable: process.env.NODE_ENV === 'development',
   register: true,
   skipWaiting: true,
 });
 
 const nextConfig = {
-  /* config options here */
   reactCompiler: true,
-  turbopack: {}, // Silence warning about webpack config from next-pwa
+  turbopack: {},
+  async redirects() {
+    return [
+      {
+        source: '/',
+        missing: [
+          {
+            type: 'cookie',
+            key: 'session_token',
+          },
+        ],
+        permanent: false,
+        destination: '/login',
+      },
+      {
+        source: '/',
+        has: [
+          {
+            type: 'cookie',
+            key: 'session_token',
+          },
+        ],
+        permanent: false,
+        destination: '/dashboard',
+      },
+      {
+        source: '/login',
+        has: [
+          {
+            type: 'cookie',
+            key: 'session_token',
+          },
+        ],
+        permanent: false,
+        destination: '/dashboard',
+      },
+      {
+        source: '/dashboard/:path*',
+        missing: [
+          {
+            type: 'cookie',
+            key: 'session_token',
+          },
+        ],
+        permanent: false,
+        destination: '/login',
+      },
+    ];
+  },
 };
 
 export default withPWA(nextConfig);

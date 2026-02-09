@@ -7,13 +7,11 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 /**
- * Senior Architect Review:
- * 1. Converted to Server Component for Zero Bundle Size fetching.
- * 2. Implements Streaming with Suspense.
- * 3. Handles Auth at the Server level using cookies.
+ * Using Server Component for Zero Bundle Size fetching.
+ * Implements Streaming with Suspense.
+ * Handles Auth at the Server level.
  */
 export default async function DashboardPage() {
-    // 1. Server-side auth check
     const cookieStore = await cookies();
     const token = cookieStore.get('session_token');
 
@@ -21,7 +19,7 @@ export default async function DashboardPage() {
         redirect('/login');
     }
 
-    // 2. Initiate data fetch (Promise is passed to Client Component)
+    // Initiate data fetch (Promise is passed to Client Component)
     const tasksPromise = getTasks();
 
     return (

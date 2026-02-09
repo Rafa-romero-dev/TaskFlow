@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -20,7 +20,6 @@ export default function LoginPage() {
     const router = useRouter();
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [isChecking, setIsChecking] = useState(true);
 
     const schema = z.object({
         email: z.string().email(t.login.invalidEmail),
@@ -30,19 +29,6 @@ export default function LoginPage() {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(schema),
     });
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            router.replace('/dashboard');
-        } else {
-            setIsChecking(false);
-        }
-    }, [router]);
-
-    if (isChecking) {
-        return <div className="min-h-screen bg-[var(--background)] animate-pulse" />;
-    }
 
     const onSubmit = async (data) => {
         setIsLoading(true);
@@ -58,9 +44,8 @@ export default function LoginPage() {
                 throw new Error(t.login.invalidCredentials);
             }
 
-            const result = await response.json();
-            localStorage.setItem('token', result.token); // Simple token storage
             router.push('/dashboard');
+            router.refresh();
         } catch (err) {
             setError(err.message);
         } finally {

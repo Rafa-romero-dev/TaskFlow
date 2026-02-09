@@ -27,7 +27,7 @@ export function TaskForm({ initialData = {}, onSubmit, onCancel, className }) {
     });
 
     const handleFormSubmit = async (data) => {
-        await onSubmit(data); // onSubmit might be async
+        await onSubmit(data);
     };
 
     return (
